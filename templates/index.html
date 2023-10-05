@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        label, input, select {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #generated_email {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Email Generator by OpenAI</h1>
+    <form action="/generate_email" method="post">
+        <label for="recipient_name">Recipient's name:</label>
+        <input type="text" id="recipient_name" name="recipient_name">
+
+        <label for="sender_name">Sender's name:</label>
+        <input type="text" id="sender_name" name="sender_name">
+
+        <label for="keywords">Keywords:</label>
+        <input type="text" id="keywords" name="keywords">
+
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" name="topic">
+
+        <label for="language">Language:</label>
+        <select id="language" name="language">
+            <option value="Japanese">Japanese</option>
+            <option value="English">English</option>
+        </select>
+
+        <input type="submit" value="Generate Email">
+    </form>
+
+    <h2>Generated Email:</h2>
+    <div id="generated_email">
+        <pre>
+            {{ email_text | safe }}
+        </pre>
+    </div>
+    
+    <script>
+        const form = document.querySelector("form");
+        const generatedEmailDiv = document.getElementById("generated_email");
+        
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+        
+            const formData = new FormData(form);
+            const response = await fetch("/generate_email", {
+                method: "POST",
+                body: formData,
+            });
+        
+            if (response.ok) {
+                try {
+                    const data = await response.json();
+                    const emailText = data.email_text;
+                    
+                    // แสดงข้อมูลอีเมล์ในส่วนที่มี ID เป็น "generated_email"
+                    generatedEmailDiv.textContent = emailText;
+                } catch (error) {
+                    generatedEmailDiv.textContent = "Error: Unable to parse email data";
+                }
+            } else {
+                generatedEmailDiv.textContent = "Error: Unable to generate email";
+            }
+        });
+    </script>
+    
+    
+</body>
+</html>
