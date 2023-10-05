@@ -4,7 +4,7 @@ import openai
 import textwrap
 
 app = Flask(__name__)
-openai.api_key = "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"
+openai.api_key = "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"
 
 # ... (เพิ่มเส้นที่ไม่เกี่ยวข้องได้ที่นี่)
 # Define a function to format the email text

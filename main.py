@@ -5,7 +5,7 @@ import requests
 class EmailGenerator(QWidget):
     def __init__(self):
         super().__init__()
-        openai.api_key = "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"
+        openai.api_key = "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"
         # Create widgets
         self.setWindowTitle("Email Generator by Open AI")
         self.resize(800, 400)
@@ -59,7 +59,7 @@ class EmailGenerator(QWidget):
         self.n = 1
         self.stop = None
         self.temperature = 0.3
-        self.api_key = "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"
+        self.api_key = "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"
 
     def set_max_tokens(self):
         # code to set max_tokens value
